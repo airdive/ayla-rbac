@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunseaiot.rbac.mapper.DeviceMapper">
+  <resultMap id="BaseResultMap" type="com.sunseaiot.rbac.model.Device">
+    <id column="dsn" jdbcType="VARCHAR" property="dsn" />
+    <result column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="oem_model" jdbcType="VARCHAR" property="oemModel" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="template_id" jdbcType="VARCHAR" property="templateId" />
+    <result column="connected_at" jdbcType="VARCHAR" property="connectedAt" />
+    <result column="key" jdbcType="VARCHAR" property="key" />
+    <result column="has_properties" jdbcType="VARCHAR" property="hasProperties" />
+    <result column="product_class" jdbcType="VARCHAR" property="productClass" />
+    <result column="conection_status" jdbcType="VARCHAR" property="conectionStatus" />
+    <result column="lat" jdbcType="VARCHAR" property="lat" />
+    <result column="lng" jdbcType="VARCHAR" property="lng" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dsn, mac, oem_model, product_name, template_id, connected_at, key, has_properties, 
+    product_class, conection_status, lat, lng
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Device
+    where dsn = #{dsn,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Device
+    where dsn = #{dsn,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sunseaiot.rbac.model.Device">
+    insert into Device (dsn, mac, oem_model, 
+      product_name, template_id, connected_at, 
+      key, has_properties, product_class, 
+      conection_status, lat, lng
+      )
+    values (#{dsn,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{oemModel,jdbcType=VARCHAR}, 
+      #{productName,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR}, #{connectedAt,jdbcType=VARCHAR}, 
+      #{key,jdbcType=VARCHAR}, #{hasProperties,jdbcType=VARCHAR}, #{productClass,jdbcType=VARCHAR}, 
+      #{conectionStatus,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sunseaiot.rbac.model.Device">
+    insert into Device
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dsn != null">
+        dsn,
+      </if>
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="oemModel != null">
+        oem_model,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="templateId != null">
+        template_id,
+      </if>
+      <if test="connectedAt != null">
+        connected_at,
+      </if>
+      <if test="key != null">
+        key,
+      </if>
+      <if test="hasProperties != null">
+        has_properties,
+      </if>
+      <if test="productClass != null">
+        product_class,
+      </if>
+      <if test="conectionStatus != null">
+        conection_status,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dsn != null">
+        #{dsn,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="oemModel != null">
+        #{oemModel,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="connectedAt != null">
+        #{connectedAt,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null">
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="hasProperties != null">
+        #{hasProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="productClass != null">
+        #{productClass,jdbcType=VARCHAR},
+      </if>
+      <if test="conectionStatus != null">
+        #{conectionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sunseaiot.rbac.model.Device">
+    update Device
+    <set>
+      <if test="mac != null">
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="oemModel != null">
+        oem_model = #{oemModel,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null">
+        template_id = #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="connectedAt != null">
+        connected_at = #{connectedAt,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null">
+        key = #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="hasProperties != null">
+        has_properties = #{hasProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="productClass != null">
+        product_class = #{productClass,jdbcType=VARCHAR},
+      </if>
+      <if test="conectionStatus != null">
+        conection_status = #{conectionStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        lng = #{lng,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dsn = #{dsn,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.Device">
+    update Device
+    set mac = #{mac,jdbcType=VARCHAR},
+      oem_model = #{oemModel,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      template_id = #{templateId,jdbcType=VARCHAR},
+      connected_at = #{connectedAt,jdbcType=VARCHAR},
+      key = #{key,jdbcType=VARCHAR},
+      has_properties = #{hasProperties,jdbcType=VARCHAR},
+      product_class = #{productClass,jdbcType=VARCHAR},
+      conection_status = #{conectionStatus,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR},
+      lng = #{lng,jdbcType=VARCHAR}
+    where dsn = #{dsn,jdbcType=VARCHAR}
+  </update>
+</mapper>
