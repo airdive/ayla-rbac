@@ -1,6 +1,7 @@
 package com.sunseaiot.rbac.controller;
 
 import com.sunseaiot.rbac.model.User;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("user")
+@Api(value = "user", description = "用户相关操作")
 public class UserController {
 
     @ApiOperation(value = "创建用户", notes = "创建用户信息", produces = "application/json")

@@ -1,6 +1,7 @@
 package com.sunseaiot.rbac.controller;
 
 import com.sunseaiot.rbac.model.Resource;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("resource")
+@Api(value = "resource", description = "资源相关操作")
 public class ResourceController {
 
     @ApiOperation(value = "创建资源", notes = "创建资源", produces = "application/json")

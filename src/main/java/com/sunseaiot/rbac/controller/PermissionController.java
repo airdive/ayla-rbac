@@ -1,6 +1,7 @@
 package com.sunseaiot.rbac.controller;
 
 import com.sunseaiot.rbac.model.Permission;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("permission")
+@Api(value = "permission", description = "许可相关操作")
 public class PermissionController {
 
     @ApiOperation(value = "创建许可", notes = "operation为许可的操作类型(read/write),resourceId对应资源的Id", produces = "application/json")

@@ -1,6 +1,7 @@
 package com.sunseaiot.rbac.controller;
 
 import com.sunseaiot.rbac.model.RoleLabel;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("label")
+@Api(value = "roleLabel", description = "角色标签相关操作")
 public class RoleLabelController {
 
     @ApiOperation(value = "角色标签列表", notes = "角色标签列表", produces = "application/json")

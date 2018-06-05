@@ -1,6 +1,7 @@
 package com.sunseaiot.rbac.controller;
 
 import com.sunseaiot.rbac.model.Role;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("role")
+@Api(value = "role", description = "角色相关操作")
 public class RoleController {
 
     @ApiOperation(value = "创建角色", notes = "创建角色信息", produces = "application/json")
