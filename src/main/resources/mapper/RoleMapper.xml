@@ -1,71 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunseaiot.rbac.mapper.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.sunseaiot.rbac.model.Role">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="permission_id" jdbcType="VARCHAR" property="permissionId" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, name, permission_id
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from role
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <resultMap id="BaseResultMap" type="com.sunseaiot.rbac.model.Role">
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <resultMap id="RoleMapWithPermission" type="com.sunseaiot.rbac.model.Role" extends="BaseResultMap">
+        <collection property="permissions" ofType="com.sunseaiot.rbac.model.Permission" >
+            <id column="permission_id" jdbcType="INTEGER" property="permissionId"/>
+            <result column="operation" jdbcType="VARCHAR" property="operation"/>
+            <association property="resources" column="resource_id" select="com.sunseaiot.rbac.mapper.ResourceMapper.selectByPrimaryKey"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        role_id, name
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select role_id, name
+        from role
+        where role_id = #{roleId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectWithPermission" parameterType="java.lang.Integer" resultMap="RoleMapWithPermission">
+        select r.role_id, r.name, p.permission_id, p.operation, p.resource_id
+        from role r
+        join role_permission rp
+        on r.role_id = rp.role_id
+        join permission p
+        on p.permission_id = rp.permission_id
+        where r.role_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from role
-    where id = #{id,jdbcType=INTEGER}
+    where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sunseaiot.rbac.model.Role">
-    insert into role (id, name, permission_id
+    <insert id="insert" parameterType="com.sunseaiot.rbac.model.Role">
+    insert into role (role_id, name, permission_id
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{permissionId,jdbcType=VARCHAR}
+    values (#{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{permissionId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.sunseaiot.rbac.model.Role">
-    insert into role
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="permissionId != null">
-        permission_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sunseaiot.rbac.model.Role">
-    update role
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="permissionId != null">
-        permission_id = #{permissionId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.Role">
+    <insert id="insertSelective" parameterType="com.sunseaiot.rbac.model.Role">
+        insert into role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="permissionId != null">
+                permission_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionId != null">
+                #{permissionId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sunseaiot.rbac.model.Role">
+        update role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionId != null">
+                permission_id = #{permissionId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where role_id = #{roleId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.Role">
     update role
     set name = #{name,jdbcType=VARCHAR},
       permission_id = #{permissionId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where role_id = #{roleId,jdbcType=INTEGER}
   </update>
 </mapper>

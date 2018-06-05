@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Resource {
-    private Integer id;
+    private Integer resourceId;
 
     private String name;
 }

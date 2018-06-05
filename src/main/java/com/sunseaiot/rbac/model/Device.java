@@ -2,6 +2,7 @@ package com.sunseaiot.rbac.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @Setter
 @Getter
+@ToString
 public class Device {
     private String dsn;
 

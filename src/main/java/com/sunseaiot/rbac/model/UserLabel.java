@@ -1,10 +1,17 @@
 package com.sunseaiot.rbac.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.io.Serializable;
 
 /**
  * @author 
  */
+@Setter
+@Getter
+@ToString
 public class UserLabel implements Serializable {
     private Integer id;
 

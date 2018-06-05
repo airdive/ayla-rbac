@@ -2,6 +2,7 @@ package com.sunseaiot.rbac.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -13,8 +14,9 @@ import java.util.List;
  */
 @Setter
 @Getter
+@ToString
 public class Role {
-    private Integer id;
+    private Integer roleId;
 
     private String name;
 

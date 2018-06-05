@@ -2,34 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunseaiot.rbac.mapper.PermissionMapper">
     <resultMap id="BaseResultMap" type="com.sunseaiot.rbac.model.Permission">
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="permission_id" jdbcType="INTEGER" property="permissionId"/>
         <result column="operation" jdbcType="VARCHAR" property="operation"/>
         <association property="resources" column="resource_id" select="com.sunseaiot.rbac.mapper.ResourceMapper.selectByPrimaryKey"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, operation, resource_id
-  </sql>
+        permission_id, operation, resource_id
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from permission
-        where id = #{id,jdbcType=INTEGER}
+        where permission_id = #{permissionId,jdbcType=INTEGER}
     </select>
+
+    <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from permission p
+        join role_permission rp
+        on p.permission_id = rp.permission_id
+        where rp.role_id = #{roleId,jdbcType=INTEGER}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from permission
-    where id = #{id,jdbcType=INTEGER}
+    where permission_id = #{permissionId,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.sunseaiot.rbac.model.Permission">
-    insert into permission (id, operation, resource_id
+    insert into permission (permission_id, operation, resource_id
       )
-    values (#{id,jdbcType=INTEGER}, #{operation,jdbcType=VARCHAR}, #{resourceId,jdbcType=INTEGER}
+    values (#{permissionId,jdbcType=INTEGER}, #{operation,jdbcType=VARCHAR}, #{resourceId,jdbcType=INTEGER}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.sunseaiot.rbac.model.Permission">
         insert into permission
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
+            <if test="permissionId != null">
+                permission_id,
             </if>
             <if test="operation != null">
                 operation,
@@ -39,8 +49,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
+            <if test="permissionId != null">
+                #{permissionId,jdbcType=INTEGER},
             </if>
             <if test="operation != null">
                 #{operation,jdbcType=VARCHAR},
@@ -60,12 +70,12 @@
                 resource_id = #{resourceId,jdbcType=INTEGER},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where permission_id = #{permissionId,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.Permission">
     update permission
     set operation = #{operation,jdbcType=VARCHAR},
       resource_id = #{resourceId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where permission_id = #{permissionId,jdbcType=INTEGER}
   </update>
 </mapper>

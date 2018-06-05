@@ -2,6 +2,7 @@ package com.sunseaiot.rbac.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
+@ToString
 public class UserRole implements Serializable {
     private Integer id;
 

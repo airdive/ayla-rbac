@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @ToString
 public class Permission {
-    private Integer id;
+    private Integer permissionId;
 
     private String operation;
 
