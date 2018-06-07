@@ -1,7 +1,9 @@
 package com.sunseaiot.rbac.mapper;
 
 import com.sunseaiot.rbac.model.Device;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface DeviceMapper {
     int deleteByPrimaryKey(String dsn);
 

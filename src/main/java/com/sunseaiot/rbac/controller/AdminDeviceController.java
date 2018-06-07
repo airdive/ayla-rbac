@@ -4,41 +4,33 @@ import com.sunseaiot.rbac.model.Device;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @description : 设备控制器
+ * @description : 管理员设备控制器
  * @author: liuchuang
  * @date: 2018/5/29 下午6:28
  * @modified by:
  */
 @RestController
-@RequestMapping("device")
-@Api(value = "/device", description = "设备相关操作")
-public class DeviceController {
+@RequestMapping("admin/device")
+@Api(value = "Devices (Admin)", description = "管理员设备相关操作")
+public class AdminDeviceController {
 
-    @ApiOperation(value = "查询设备列表", response = Device.class, responseContainer = "List", produces = "application/json")
-    @GetMapping("list")
-    public List<Device> deviceList(){
-
-        return null;
-    }
-
-    @ApiOperation(value = "获取设备", response = Device.class, produces = "application/json")
-    @ApiImplicitParam(name = "dsn", value = "设备序列号", required = true, paramType = "path", dataType = "String")
-    @GetMapping("{dsn}")
-    public Device getByDsn(@PathVariable String dsn){
+    @ApiOperation(value = "激活设备", response = String.class, produces = "application/json")
+    @ApiImplicitParam(name = "dsn", value = "设备dsn", required = true, dataType = "String")
+    @PutMapping("active")
+    public String activeDevice(String dsn){
 
         return null;
     }
 
-    @ApiOperation(value = "修改设备信息", response = String.class, produces = "application/json")
-    @ApiImplicitParam(name = "device", value = "设备", required = true, dataType = "Device")
-    @PostMapping("modify")
-    public String modify(Device device){
+    @ApiOperation(value = "失效设备", response = String.class, produces = "application/json")
+    @ApiImplicitParam(name = "dsn", value = "设备dsn", required = true, paramType = "query", dataType = "String")
+    @PutMapping("invalid")
+    public String invalidDevice(String dsn){
 
         return null;
     }

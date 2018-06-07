@@ -36,6 +36,8 @@ public class User {
 
     private List<RoleLabel> roleLabels;
 
+    private String orgId;
+
     private String createAt;
 
     private String updateAt;

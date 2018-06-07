@@ -14,15 +14,16 @@
         <result column="conection_status" jdbcType="VARCHAR" property="conectionStatus"/>
         <result column="lat" jdbcType="VARCHAR" property="lat"/>
         <result column="lng" jdbcType="VARCHAR" property="lng"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
     </resultMap>
 
     <resultMap id="DeviceMapWithRoleAndLabel" type="com.sunseaiot.rbac.model.Device" extends="BaseResultMap">
         <collection property="roles" ofType="com.sunseaiot.rbac.model.Role">
-            <id column="id" jdbcType="INTEGER" property="id"/>
+            <id column="role_id" jdbcType="INTEGER" property="roleId"/>
             <result column="name" jdbcType="VARCHAR" property="name"/>
             <result column="permission_id" jdbcType="VARCHAR" property="permissionId"/>
             <collection property="permissions" ofType="com.sunseaiot.rbac.model.Permission">
-                <id column="id" jdbcType="INTEGER" property="id"/>
+                <id column="permission_id" jdbcType="INTEGER" property="permissionId"/>
                 <result column="operation" jdbcType="VARCHAR" property="operation"/>
                 <association property="resources" column="resource_id" select="com.sunseaiot.rbac.mapper.ResourceMapper.selectByPrimaryKey"/>
             </collection>
@@ -31,7 +32,7 @@
 
     <sql id="Base_Column_List">
     dsn, mac, oem_model, product_name, template_id, connected_at, key, has_properties, 
-    product_class, conection_status, lat, lng
+    product_class, conection_status, lat, lng, org_id
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select

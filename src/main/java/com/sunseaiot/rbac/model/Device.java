@@ -44,5 +44,7 @@ public class Device {
 
     private List<RoleLabel> roleLabels;
 
+    private String orgId;
+
     private static final long serialVersionUID = 1L;
 }

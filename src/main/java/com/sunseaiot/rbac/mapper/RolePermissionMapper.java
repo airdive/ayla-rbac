@@ -1,7 +1,9 @@
 package com.sunseaiot.rbac.mapper;
 
 import com.sunseaiot.rbac.model.RolePermission;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface RolePermissionMapper {
     int deleteByPrimaryKey(Integer id);
 

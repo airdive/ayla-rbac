@@ -21,13 +21,21 @@ public class RoleMapperTest {
 
     @Test
     public void testSelectByPrimaryKey(){
-        Role role = mapper.selectByPrimaryKey(1);
+        Role role = mapper.selectBasicInfo(1);
         System.out.println(role);
     }
 
     @Test
     public void testSelectWithPermission(){
         Role role = mapper.selectWithPermission(1);
-        System.out.println(role);
+        System.out.println("role: "+role);
+        System.out.println("role -> permissions :"+role.getPermissions());
+    }
+
+    @Test
+    public void testSelectDetail(){
+        Role role = mapper.selectDetail(1);
+        System.out.println("role: "+role);
+        System.out.println("role -> permissions :"+role.getPermissions());
     }
 }

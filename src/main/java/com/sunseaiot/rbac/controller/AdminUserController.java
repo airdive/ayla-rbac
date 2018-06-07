@@ -1,37 +1,31 @@
 package com.sunseaiot.rbac.controller;
 
 import com.sunseaiot.rbac.model.User;
-import com.sunseaiot.rbac.model.param.UserParam;
-import com.sunseaiot.rbac.model.response.ResponseData;
-import com.sunseaiot.rbac.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @description : 用户控制器
+ * @description : 管理员用户控制器
  * @author: liuchuang
  * @date: 2018/5/29 下午4:10
  * @modified by:
  */
 @RestController
-@RequestMapping("user")
-@Api(value = "user", description = "用户相关操作")
-public class UserController {
-    @Autowired
-    private UserService userService;
+@RequestMapping("admin/user")
+@Api(value = "Users : Admin APIs of Users", description = "用户相关操作")
+public class AdminUserController {
 
     @ApiOperation(value = "创建用户", notes = "创建用户信息", produces = "application/json")
-    @ApiImplicitParam(name = "userParam", value = "用户实体对象", required = true, paramType = "body", dataType = "UserParam")
+    @ApiImplicitParam(name = "user", value = "用户实体对象", required = true, paramType = "body", dataType = "User")
     @PostMapping
-    public User create(@RequestBody UserParam userParam){
-        userService.createByUserParam(userParam);
-        return userService.selectByUsername(userParam.getUsername());
+    public String create(User user){
+
+        return null;
     }
 
     @ApiOperation(value = "登录", notes = "登录", produces = "application/json")
@@ -40,8 +34,9 @@ public class UserController {
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, paramType = "query", dataType = "String")
     })
     @PostMapping("login")
-    public ResponseData login(String username, String password){
-        return userService.verifyUser(username, password) ? new ResponseData("200","success") : new ResponseData("400","fail");
+    public String login(String username, String password){
+
+        return null;
     }
 
     @ApiOperation(value = "用户列表", notes = "用户列表", produces = "application/json")
@@ -55,14 +50,16 @@ public class UserController {
     @ApiImplicitParam(name = "email", value = "邮箱", required = true, paramType = "query", dataType = "String")
     @GetMapping("byEmail")
     public User getByEmail(String email){
-        return userService.selectByEmail(email);
+
+        return null;
     }
 
     @ApiOperation(value = "通过phone查询用户", notes = "通过phone查询用户", produces = "application/json")
     @ApiImplicitParam(name = "phone", value = "手机号码", required = true, paramType = "query", dataType = "String")
     @GetMapping("byPhone")
     public User getByPhone(String phone){
-        return userService.selectByPhone(phone);
+
+        return null;
     }
 
     @ApiOperation(value = "通过roleId查询用户", notes = "通过roleId查询用户", produces = "application/json")
@@ -95,31 +92,31 @@ public class UserController {
 
     @ApiOperation(value = "关联角色", notes = "用户关联角色", produces = "application/json")
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, paramType = "query", dataType = "String")
-    @PutMapping("assign_role")
-    public String assignRole(String roleId){
+    @PutMapping("associate_role")
+    public String associateRole(String roleId){
 
         return null;
     }
 
     @ApiOperation(value = "解关联角色", notes = "用户解关联角色", produces = "application/json")
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, paramType = "query", dataType = "String")
-    @PutMapping("revoke_role")
-    public String revokeRole(String roleId){
+    @PutMapping("disassociate_role")
+    public String disassociateRole(String roleId){
 
         return null;
     }
 
     @ApiOperation(value = "关联角色标签", notes = "用户关联角色标签", produces = "application/json")
     @ApiImplicitParam(name = "labelId", value = "角色标签Id", required = true, paramType = "query", dataType = "String")
-    @PutMapping("assign_role_label")
-    public String assignLabel(String labelId){
+    @PutMapping("associate_role_label")
+    public String associateRoleLabel(String labelId){
 
         return null;
     }
 
     @ApiOperation(value = "解关联角色标签", notes = "用户解关联角色标签", produces = "application/json")
     @ApiImplicitParam(name = "labelId", value = "角色标签Id", required = true, paramType = "query", dataType = "String")
-    @PutMapping("revoke_role_label")
+    @PutMapping("disassociate_role_label")
     public String disassociateRoleLabel(String labelId){
 
         return null;
@@ -128,9 +125,9 @@ public class UserController {
     @ApiOperation(value = "删除用户", notes = "删除id对应的用户", produces = "application/json")
     @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "String")
     @DeleteMapping("{id}")
-    public ResponseData delete(@PathVariable Integer id){
-        int count = userService.deleteByPrimaryKey(id);
-        return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
+    public String delete(@PathVariable Integer id){
+
+        return null;
     }
 
 }

@@ -14,42 +14,22 @@
     from resource
     where resource_id = #{resourceId,jdbcType=INTEGER}
   </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from resource
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from resource
     where resource_id = #{resourceId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sunseaiot.rbac.model.Resource">
-    insert into resource (resource_id, name)
-    values (#{resourceId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="String">
+    insert into resource ( name)
+    values (#{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sunseaiot.rbac.model.Resource">
-    insert into resource
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="resourceId != null">
-        resource_id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="resourceId != null">
-        #{resourceId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sunseaiot.rbac.model.Resource">
-    update resource
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where resource_id = #{resourceId,jdbcType=INTEGER}
-  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.Resource">
     update resource
     set name = #{name,jdbcType=VARCHAR}

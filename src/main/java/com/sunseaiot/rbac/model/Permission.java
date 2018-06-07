@@ -1,10 +1,9 @@
 package com.sunseaiot.rbac.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 /**
  * @description : 许可
@@ -15,6 +14,7 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@JsonIgnoreProperties(value = {"handler"})  //mybatis的associate使用lazy模式时需要此注解
 public class Permission {
     private Integer permissionId;
 

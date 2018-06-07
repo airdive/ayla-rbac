@@ -1,6 +1,7 @@
 package com.sunseaiot.rbac.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -15,10 +16,15 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
 public class Role {
     private Integer roleId;
 
     private String name;
 
     private List<Permission> permissions;
+
+    public Role(String name){
+        this.name = name;
+    }
 }

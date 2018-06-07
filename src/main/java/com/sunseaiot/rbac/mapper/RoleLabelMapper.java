@@ -1,7 +1,9 @@
 package com.sunseaiot.rbac.mapper;
 
 import com.sunseaiot.rbac.model.RoleLabel;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface RoleLabelMapper {
     int deleteByPrimaryKey(Integer id);
 

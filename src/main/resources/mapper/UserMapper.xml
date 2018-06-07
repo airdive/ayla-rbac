@@ -1,175 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunseaiot.rbac.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.sunseaiot.rbac.model.User">
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
-    <result column="level" jdbcType="VARCHAR" property="level" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
-    <result column="can_assign_role_label" jdbcType="BIT" property="canAssignRoleLabel" />
-    <result column="usercol" jdbcType="VARCHAR" property="usercol" />
-    <result column="label_id" jdbcType="VARCHAR" property="labelId" />
-    <result column="create_at" jdbcType="VARCHAR" property="createAt" />
-    <result column="update_at" jdbcType="VARCHAR" property="updateAt" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    user_id, parent_id, level, username, password, email, phone, role_id, can_assign_role_label,
-    usercol, label_id, create_at, update_at
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from user
-    where user_id = #{userId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
-    where user_id = #{userId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.sunseaiot.rbac.model.User">
-    insert into user (user_id, parent_id, level,
+    <resultMap id="BaseResultMap" type="com.sunseaiot.rbac.model.User">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="level" jdbcType="VARCHAR" property="level"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="can_assign_role_label" jdbcType="BIT" property="canAssignRoleLabel"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="create_at" jdbcType="VARCHAR" property="createAt"/>
+        <result column="update_at" jdbcType="VARCHAR" property="updateAt"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id, parent_id, level, username, password, email, phone, can_assign_role_label,
+        usercol, create_at, update_at
+    </sql>
+    <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where email = #{email,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where phone = #{phone,jdbcType=VARCHAR}
+    </select>
+
+    <select id="verifyUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where email = #{email,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.sunseaiot.rbac.model.User">
+    insert into user (parent_id, level,
       username, password, email, 
-      phone, role_id, can_assign_role_label, 
-      usercol, label_id, create_at, 
-      update_at)
-    values (#{userId,jdbcType=INTEGER}, #{parentId,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR},
+      phone, can_assign_role_label,
+      create_at, update_at)
+    values ( #{parentId,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR},
       #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{canAssignRoleLabel,jdbcType=BIT}, 
-      #{usercol,jdbcType=VARCHAR}, #{labelId,jdbcType=VARCHAR}, #{createAt,jdbcType=VARCHAR}, 
-      #{updateAt,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{canAssignRoleLabel,jdbcType=BIT},
+      #{createAt,jdbcType=VARCHAR}, unix_timestamp(now()))
   </insert>
-  <insert id="insertSelective" parameterType="com.sunseaiot.rbac.model.User">
-    insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-          user_id,
-      </if>
-      <if test="parentId != null">
-        parent_id,
-      </if>
-      <if test="level != null">
-        level,
-      </if>
-      <if test="username != null">
-        username,
-      </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="email != null">
-        email,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="roleId != null">
-        role_id,
-      </if>
-      <if test="canAssignRoleLabel != null">
-        can_assign_role_label,
-      </if>
-      <if test="usercol != null">
-        usercol,
-      </if>
-      <if test="labelId != null">
-        label_id,
-      </if>
-      <if test="createAt != null">
-        create_at,
-      </if>
-      <if test="updateAt != null">
-        update_at,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="parentId != null">
-        #{parentId,jdbcType=VARCHAR},
-      </if>
-      <if test="level != null">
-        #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=VARCHAR},
-      </if>
-      <if test="canAssignRoleLabel != null">
-        #{canAssignRoleLabel,jdbcType=BIT},
-      </if>
-      <if test="usercol != null">
-        #{usercol,jdbcType=VARCHAR},
-      </if>
-      <if test="labelId != null">
-        #{labelId,jdbcType=VARCHAR},
-      </if>
-      <if test="createAt != null">
-        #{createAt,jdbcType=VARCHAR},
-      </if>
-      <if test="updateAt != null">
-        #{updateAt,jdbcType=VARCHAR},
-      </if>
-    </trim>
+
+    <insert id="insertByUserParam" parameterType="com.sunseaiot.rbac.model.param.UserParam">
+    insert into user (
+    username, password, email,
+    phone, create_at, update_at)
+    values ( #{parentId,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR},
+    #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+    #{phone,jdbcType=VARCHAR}, #{createAt,jdbcType=VARCHAR}, unix_timestamp(now()) )
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sunseaiot.rbac.model.User">
-    update user
-    <set>
-      <if test="parentId != null">
-        parent_id = #{parentId,jdbcType=VARCHAR},
-      </if>
-      <if test="level != null">
-        level = #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=VARCHAR},
-      </if>
-      <if test="canAssignRoleLabel != null">
-        can_assign_role_label = #{canAssignRoleLabel,jdbcType=BIT},
-      </if>
-      <if test="usercol != null">
-        usercol = #{usercol,jdbcType=VARCHAR},
-      </if>
-      <if test="labelId != null">
-        label_id = #{labelId,jdbcType=VARCHAR},
-      </if>
-      <if test="createAt != null">
-        create_at = #{createAt,jdbcType=VARCHAR},
-      </if>
-      <if test="updateAt != null">
-        update_at = #{updateAt,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where user_id = #{userId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.User">
+
+    <insert id="insertSelective" parameterType="com.sunseaiot.rbac.model.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="canAssignRoleLabel != null">
+                can_assign_role_label,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+            <if test="updateAt != null">
+                update_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="canAssignRoleLabel != null">
+                #{canAssignRoleLabel,jdbcType=BIT},
+            </if>
+            <if test="createAt != null">
+                #{createAt,jdbcType=VARCHAR},
+            </if>
+            <if test="updateAt != null">
+                #{updateAt,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sunseaiot.rbac.model.User">
+        update user
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="canAssignRoleLabel != null">
+                can_assign_role_label = #{canAssignRoleLabel,jdbcType=BIT},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt,jdbcType=VARCHAR},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.User">
     update user
     set parent_id = #{parentId,jdbcType=VARCHAR},
       level = #{level,jdbcType=VARCHAR},
