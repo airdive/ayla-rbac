@@ -1,5 +1,6 @@
 package com.sunseaiot.rbac.service;
 
+import com.github.pagehelper.PageInfo;
 import com.sunseaiot.rbac.model.User;
 import com.sunseaiot.rbac.model.param.UserParam;
 
@@ -26,9 +27,13 @@ public interface UserService {
 
     User selectByPhone(String phone);
 
-    Boolean verifyUser(String email, String password);
+    PageInfo<User> selectAll(Integer pageNo, Integer pageSize);
+
+    User verifyUser(String email, String password);
 
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    int updatePasswordByUsername(String username, String paasword);
 }

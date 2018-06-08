@@ -1,6 +1,7 @@
 package com.sunseaiot.rbac.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
 public class UserLabel implements Serializable {
     private Integer id;
 
@@ -21,27 +23,8 @@ public class UserLabel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
+    public UserLabel(Integer userId, Integer labelId){
         this.userId = userId;
-    }
-
-    public Integer getLabelId() {
-        return labelId;
-    }
-
-    public void setLabelId(Integer labelId) {
         this.labelId = labelId;
     }
 }

@@ -1,6 +1,7 @@
 package com.sunseaiot.rbac.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
 public class DeviceRole implements Serializable {
     private Integer id;
 
@@ -21,27 +23,8 @@ public class DeviceRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDsn() {
-        return dsn;
-    }
-
-    public void setDsn(String dsn) {
+    public DeviceRole(String dsn,Integer roleId){
         this.dsn = dsn;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 }

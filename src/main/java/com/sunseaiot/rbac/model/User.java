@@ -32,7 +32,7 @@ public class User {
 
     private List<Role> roles;
 
-    private Boolean canAssignRoleLabel;
+    private Boolean canAssignRole;
 
     private List<RoleLabel> roleLabels;
 

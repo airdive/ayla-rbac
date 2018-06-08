@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface UserLabelMapper {
-    int deleteByPrimaryKey(Integer labelId);
+    int deleteByPrimaryKey(Integer id);
+
+    int deleteByUserAndLabel(Integer userId, Integer labelId);
 
     int insert(UserLabel record);
 
-    int insertSelective(UserLabel record);
-
-    UserLabel selectByPrimaryKey(Integer labelId);
+    UserLabel selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(UserLabel record);
 

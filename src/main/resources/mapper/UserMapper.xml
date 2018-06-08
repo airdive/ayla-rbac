@@ -9,13 +9,13 @@
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
-        <result column="can_assign_role_label" jdbcType="BIT" property="canAssignRoleLabel"/>
+        <result column="can_assign_role" jdbcType="BIT" property="canAssignRole"/>
         <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
         <result column="create_at" jdbcType="VARCHAR" property="createAt"/>
         <result column="update_at" jdbcType="VARCHAR" property="updateAt"/>
     </resultMap>
     <sql id="Base_Column_List">
-        user_id, parent_id, level, username, password, email, phone, can_assign_role_label,
+        user_id, parent_id, level, username, password, email, phone, can_assign_role,
         usercol, create_at, update_at
     </sql>
     <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -61,11 +61,11 @@
     <insert id="insert" parameterType="com.sunseaiot.rbac.model.User">
     insert into user (parent_id, level,
       username, password, email, 
-      phone, can_assign_role_label,
+      phone, can_assign_role,
       create_at, update_at)
     values ( #{parentId,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR},
       #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{canAssignRoleLabel,jdbcType=BIT},
+      #{phone,jdbcType=VARCHAR}, #{canAssignRole,jdbcType=BIT},
       #{createAt,jdbcType=VARCHAR}, unix_timestamp(now()))
   </insert>
 
@@ -99,8 +99,8 @@
             <if test="phone != null">
                 phone,
             </if>
-            <if test="canAssignRoleLabel != null">
-                can_assign_role_label,
+            <if test="canAssignRole != null">
+                can_assign_role,
             </if>
             <if test="createAt != null">
                 create_at,
@@ -128,8 +128,8 @@
             <if test="phone != null">
                 #{phone,jdbcType=VARCHAR},
             </if>
-            <if test="canAssignRoleLabel != null">
-                #{canAssignRoleLabel,jdbcType=BIT},
+            <if test="canAssignRole != null">
+                #{canAssignRole,jdbcType=BIT},
             </if>
             <if test="createAt != null">
                 #{createAt,jdbcType=VARCHAR},
@@ -160,32 +160,31 @@
             <if test="phone != null">
                 phone = #{phone,jdbcType=VARCHAR},
             </if>
-            <if test="canAssignRoleLabel != null">
-                can_assign_role_label = #{canAssignRoleLabel,jdbcType=BIT},
+            <if test="canAssignRole != null">
+                can_assign_role = #{canAssignRole,jdbcType=BIT},
             </if>
-            <if test="createAt != null">
-                create_at = #{createAt,jdbcType=VARCHAR},
-            </if>
-            <if test="updateAt != null">
-                update_at = #{updateAt,jdbcType=VARCHAR},
+            <if test="1 == 1">
+                update_at = unix_timestamp(now()),
             </if>
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.User">
-    update user
-    set parent_id = #{parentId,jdbcType=VARCHAR},
-      level = #{level,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=VARCHAR},
-      can_assign_role_label = #{canAssignRoleLabel,jdbcType=BIT},
-      usercol = #{usercol,jdbcType=VARCHAR},
-      label_id = #{labelId,jdbcType=VARCHAR},
-      create_at = #{createAt,jdbcType=VARCHAR},
-      update_at = #{updateAt,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=INTEGER}
-  </update>
+        update user
+        set parent_id = #{parentId,jdbcType=VARCHAR},
+          level = #{level,jdbcType=VARCHAR},
+          username = #{username,jdbcType=VARCHAR},
+          password = #{password,jdbcType=VARCHAR},
+          email = #{email,jdbcType=VARCHAR},
+          phone = #{phone,jdbcType=VARCHAR},
+          can_assign_role = #{canAssignRole,jdbcType=BIT},
+          update_at = unix_timestamp(now())
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updatePasswordByUsername">
+        update user
+        set password = #{password,jdbcType=VARCHAR}
+        where username = #{username,jdbcType=VARCHAR}
+    </update>
 </mapper>

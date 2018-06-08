@@ -1,11 +1,15 @@
 package com.sunseaiot.rbac.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sunseaiot.rbac.mapper.UserMapper;
 import com.sunseaiot.rbac.model.User;
 import com.sunseaiot.rbac.model.param.UserParam;
 import com.sunseaiot.rbac.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @description : TODO
@@ -54,14 +58,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public PageInfo<User> selectAll(Integer pageNo,Integer pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        List<User> list = userMapper.selectAll();
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    @Override
     public User selectByPhone(String phone) {
         return userMapper.selectByPhone(phone);
     }
 
     @Override
-    public Boolean verifyUser(String email, String password) {
-        User user = userMapper.verifyUser(email, password);
-        return user == null ? false : true;
+    public User verifyUser(String email, String password) {
+        return userMapper.verifyUser(email, password);
     }
 
     @Override
@@ -72,5 +83,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateByPrimaryKey(User record) {
         return userMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int updatePasswordByUsername(String username, String paasword) {
+        return userMapper.updatePasswordByUsername(username, paasword);
     }
 }

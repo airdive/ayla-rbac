@@ -4,6 +4,8 @@ import com.sunseaiot.rbac.model.User;
 import com.sunseaiot.rbac.model.param.UserParam;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
@@ -22,9 +24,13 @@ public interface UserMapper {
 
     User selectByPhone(String phone);
 
+    List<User> selectAll();
+
     User verifyUser(String email, String password);
 
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    int updatePasswordByUsername(String username,String password);
 }
