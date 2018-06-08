@@ -2,7 +2,9 @@ package com.sunseaiot.rbac.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.sunseaiot.rbac.model.Device;
+import com.sunseaiot.rbac.model.DeviceRole;
 import com.sunseaiot.rbac.model.response.ResponseData;
+import com.sunseaiot.rbac.service.DeviceRoleService;
 import com.sunseaiot.rbac.service.DeviceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,6 +28,8 @@ import java.util.List;
 public class DeviceController {
     @Autowired
     private DeviceService deviceService;
+    @Autowired
+    private DeviceRoleService deviceRoleService;
 
     @ApiOperation(value = "查询设备列表", response = Device.class, responseContainer = "List", produces = "application/json")
     @ApiImplicitParams({
@@ -53,18 +57,24 @@ public class DeviceController {
     }
 
     @ApiOperation(value = "关联角色", response = String.class, produces = "application/json")
-    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, paramType = "query", dataType = "String")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dsn", value = "设备dsn", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, paramType = "query", dataType = "String")
+    })
     @PutMapping("assign_role")
-    public String assignRole(String dsn, String roleId){
-
+    public String assignRole(@RequestParam String dsn, @RequestParam Integer roleId){
+        deviceRoleService.insert(new DeviceRole(dsn,roleId));
         return null;
     }
 
     @ApiOperation(value = "解关联角色", response = String.class, produces = "application/json")
-    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, paramType = "query", dataType = "String")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dsn", value = "设备dsn", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, paramType = "query", dataType = "String")
+    })
     @PutMapping("revoke_role")
-    public String revokeRole(String dsn, String roleId){
-
+    public String revokeRole(@RequestParam String dsn, @RequestParam Integer roleId){
+        deviceRoleService.deleteByDsnAndRole(dsn,roleId);
         return null;
     }
 
