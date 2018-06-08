@@ -7,11 +7,13 @@ import org.springframework.stereotype.Component;
 public interface DeviceRoleMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByDsnAndRole(String dsn, Integer roleId);
+
     int insert(DeviceRole record);
 
-    int insertSelective(DeviceRole record);
-
     DeviceRole selectByPrimaryKey(Integer id);
+
+    DeviceRole selectByDsnAndRole(String dsn, Integer roleId);
 
     int updateByPrimaryKeySelective(DeviceRole record);
 

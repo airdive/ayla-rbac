@@ -46,5 +46,9 @@ public class Device {
 
     private String orgId;
 
+    private String createAt;
+
+    private String updateAt;
+
     private static final long serialVersionUID = 1L;
 }

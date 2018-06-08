@@ -1,5 +1,10 @@
 package com.sunseaiot.rbac.service;
 
+import com.github.pagehelper.PageInfo;
+import com.sunseaiot.rbac.model.Device;
+
+import java.util.List;
+
 /**
  * @description : TODO
  * @author: liuchuang
@@ -7,4 +12,19 @@ package com.sunseaiot.rbac.service;
  * @modified by:
  */
 public interface DeviceService {
+
+    int deleteByDsn(String dsn);
+
+    int insert(Device record);
+
+    int insertSelective(Device record);
+
+    Device selectByDsn(String dsn);
+
+    PageInfo<Device> selectAll(Integer pageNo, Integer pageSize);
+
+    int updateByDsnSelective(Device record);
+
+    int updateByDsn(Device record);
+
 }

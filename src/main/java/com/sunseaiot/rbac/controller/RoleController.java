@@ -31,7 +31,7 @@ public class RoleController {
     @ApiOperation(value = "创建角色", notes = "创建角色信息", produces = "application/json")
     @ApiImplicitParam(name = "roleParam", value = "角色参数对象", required = true, paramType = "body", dataType = "RoleParam")
     @PostMapping
-    public ResponseData create(RoleParam roleParam){
+    public ResponseData create(@RequestBody RoleParam roleParam){
         int count = roleService.insert(roleParam);
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
@@ -56,7 +56,7 @@ public class RoleController {
     @ApiOperation(value = "修改角色名称", notes = "修改角色名称信息", produces = "application/json")
     @ApiImplicitParam(name = "roleName", value = "角色Id", required = true, paramType = "body", dataType = "Role")
     @PutMapping("modifyRoleName")
-    public ResponseData modifyRoleName(Role role){
+    public ResponseData modifyRoleName(@RequestBody Role role){
         int count = roleService.updateByPrimaryKey(role);
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }

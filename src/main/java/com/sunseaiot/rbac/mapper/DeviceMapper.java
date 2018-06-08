@@ -3,6 +3,8 @@ package com.sunseaiot.rbac.mapper;
 import com.sunseaiot.rbac.model.Device;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public interface DeviceMapper {
     int deleteByPrimaryKey(String dsn);
@@ -11,7 +13,9 @@ public interface DeviceMapper {
 
     int insertSelective(Device record);
 
-    Device selectByPrimaryKey(String dsn);
+    Device selectByDsn(String dsn);
+
+    List<Device> selectAll();
 
     int updateByPrimaryKeySelective(Device record);
 

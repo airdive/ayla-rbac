@@ -33,7 +33,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "resourceId", value = "资源Id", required = true, paramType = "query", dataType = "String")
     })
     @PostMapping
-    public ResponseData create(String operation, Integer resourceId){
+    public ResponseData create(@RequestParam String operation, @RequestParam Integer resourceId){
         int count = permissionService.insert(operation,resourceId);
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
@@ -58,7 +58,7 @@ public class PermissionController {
     @ApiOperation(value = "修改许可", notes = "修改许可的信息", produces = "application/json")
     @ApiImplicitParam(name = "permission", value = "许可的实体对象", required = true, paramType = "body", dataType = "Permission")
     @PutMapping("modify")
-    public ResponseData modify(Permission permission){
+    public ResponseData modify(@RequestBody Permission permission){
         int count = permissionService.updateByPrimaryKey(permission);
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }

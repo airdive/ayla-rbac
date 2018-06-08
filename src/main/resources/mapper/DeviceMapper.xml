@@ -15,6 +15,8 @@
         <result column="lat" jdbcType="VARCHAR" property="lat"/>
         <result column="lng" jdbcType="VARCHAR" property="lng"/>
         <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="create_at" jdbcType="VARCHAR" property="createAt"/>
+        <result column="update_at" jdbcType="VARCHAR" property="updateAt"/>
     </resultMap>
 
     <resultMap id="DeviceMapWithRoleAndLabel" type="com.sunseaiot.rbac.model.Device" extends="BaseResultMap">
@@ -25,37 +27,45 @@
             <collection property="permissions" ofType="com.sunseaiot.rbac.model.Permission">
                 <id column="permission_id" jdbcType="INTEGER" property="permissionId"/>
                 <result column="operation" jdbcType="VARCHAR" property="operation"/>
-                <association property="resources" column="resource_id" select="com.sunseaiot.rbac.mapper.ResourceMapper.selectByPrimaryKey"/>
+                <association property="resources" column="resource_id"
+                             select="com.sunseaiot.rbac.mapper.ResourceMapper.selectByPrimaryKey"/>
             </collection>
         </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
-    dsn, mac, oem_model, product_name, template_id, connected_at, key, has_properties, 
-    product_class, conection_status, lat, lng, org_id
-  </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        dsn, mac, oem_model, product_name, template_id, connected_at, key, has_properties,
+        product_class, conection_status, lat, lng, org_id, create_at, update_at
+    </sql>
+    <select id="selectByDsn" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from Device
         where dsn = #{dsn,jdbcType=VARCHAR}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from Device
-    where dsn = #{dsn,jdbcType=VARCHAR}
-  </delete>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Device
+    </select>
+
+    <delete id="deleteByDsn" parameterType="java.lang.String">
+        delete from Device
+        where dsn = #{dsn,jdbcType=VARCHAR}
+    </delete>
     <insert id="insert" parameterType="com.sunseaiot.rbac.model.Device">
     insert into Device (dsn, mac, oem_model, 
       product_name, template_id, connected_at, 
       key, has_properties, product_class, 
-      conection_status, lat, lng
-      )
+      conection_status, lat, lng, org_id, create_at)
     values (#{dsn,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{oemModel,jdbcType=VARCHAR}, 
       #{productName,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR}, #{connectedAt,jdbcType=VARCHAR}, 
       #{key,jdbcType=VARCHAR}, #{hasProperties,jdbcType=VARCHAR}, #{productClass,jdbcType=VARCHAR}, 
-      #{conectionStatus,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}
+      #{conectionStatus,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR},
+      #{orgId,jdbcType=VARCHAR}, unix_timestamp(now())
       )
-  </insert>
+    </insert>
     <insert id="insertSelective" parameterType="com.sunseaiot.rbac.model.Device">
         insert into Device
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -95,6 +105,9 @@
             <if test="lng != null">
                 lng,
             </if>
+            <if test="1 == 1">
+                create_at,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="dsn != null">
@@ -133,9 +146,12 @@
             <if test="lng != null">
                 #{lng,jdbcType=VARCHAR},
             </if>
+            <if test="1 == 1">
+                unix_timestamp(now())
+            </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.sunseaiot.rbac.model.Device">
+    <update id="updateByDsnSelective" parameterType="com.sunseaiot.rbac.model.Device">
         update Device
         <set>
             <if test="mac != null">
@@ -171,10 +187,13 @@
             <if test="lng != null">
                 lng = #{lng,jdbcType=VARCHAR},
             </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt,jdbcType=VARCHAR},
+            </if>
         </set>
         where dsn = #{dsn,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.sunseaiot.rbac.model.Device">
+    <update id="updateByDsn" parameterType="com.sunseaiot.rbac.model.Device">
     update Device
     set mac = #{mac,jdbcType=VARCHAR},
       oem_model = #{oemModel,jdbcType=VARCHAR},
@@ -186,7 +205,8 @@
       product_class = #{productClass,jdbcType=VARCHAR},
       conection_status = #{conectionStatus,jdbcType=VARCHAR},
       lat = #{lat,jdbcType=VARCHAR},
-      lng = #{lng,jdbcType=VARCHAR}
+      lng = #{lng,jdbcType=VARCHAR},
+      update_at = unix_timestamp(now())
     where dsn = #{dsn,jdbcType=VARCHAR}
-  </update>
+    </update>
 </mapper>

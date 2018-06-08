@@ -49,7 +49,7 @@ public class UserController {
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, paramType = "query", dataType = "String")
     })
     @PostMapping("login")
-    public ResponseData login(String username, String password){
+    public ResponseData login(@RequestParam String username, @RequestParam String password){
         User user = userService.verifyUser(username, password);
         return user != null ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
@@ -67,31 +67,31 @@ public class UserController {
     @ApiOperation(value = "通过email查询用户", notes = "通过email查询用户", produces = "application/json")
     @ApiImplicitParam(name = "email", value = "邮箱", required = true, paramType = "query", dataType = "String")
     @GetMapping("byEmail")
-    public User getByEmail(String email){
+    public User getByEmail(@RequestParam String email){
         return userService.selectByEmail(email);
     }
 
     @ApiOperation(value = "通过phone查询用户", notes = "通过phone查询用户", produces = "application/json")
     @ApiImplicitParam(name = "phone", value = "手机号码", required = true, paramType = "query", dataType = "String")
     @GetMapping("byPhone")
-    public User getByPhone(String phone){
+    public User getByPhone(@RequestParam String phone){
         return userService.selectByPhone(phone);
     }
 
     @ApiOperation(value = "通过roleId查询用户", notes = "通过roleId查询用户", produces = "application/json")
     @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, paramType = "query", dataType = "String")
     @GetMapping("byRoleId")
-    public List<User> getByRole(Integer roleId){
+    public List<User> getByRole(@RequestParam Integer roleId){
 
         return null;
     }
 
     @ApiOperation(value = "修改用户", notes = "修改用户信息", produces = "application/json")
-    @ApiImplicitParam(name = "user", value = "用户实体对象", required = true, paramType = "query", dataType = "User")
+    @ApiImplicitParam(name = "user", value = "用户实体对象", required = true, paramType = "body", dataType = "User")
     @PutMapping("modify")
-    public String modify(User user){
-
-        return null;
+    public ResponseData modify(@RequestBody User user){
+        int count = userService.updateByPrimaryKeySelective(user);
+        return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
 
     @ApiOperation(value = "修改用户密码", notes = "修改用户密码", produces = "application/json")
@@ -101,7 +101,7 @@ public class UserController {
             @ApiImplicitParam(name = "newPassword", value = "新密码", required = true, paramType = "query", dataType = "String")
     })
     @PostMapping("passowrd")
-    public ResponseData modifyPasswd(String username, String oldPassword, String newPassword){
+    public ResponseData modifyPasswd(@RequestParam String username, @RequestParam String oldPassword, @RequestParam String newPassword){
         User user = userService.verifyUser(username,oldPassword);
         int count = 0;
         if (user != null){
@@ -116,7 +116,7 @@ public class UserController {
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, paramType = "query", dataType = "String")
     })
     @PutMapping("assign_role")
-    public ResponseData assignRole(Integer userId, Integer roleId){
+    public ResponseData assignRole(@RequestParam Integer userId, @RequestParam Integer roleId){
         int count = userRoleService.insert(new UserRole(userId,roleId));
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
@@ -127,7 +127,7 @@ public class UserController {
             @ApiImplicitParam(name = "roleId", value = "角色Id", required = true, paramType = "query", dataType = "String")
     })
     @PutMapping("revoke_role")
-    public ResponseData revokeRole(Integer userId, Integer roleId){
+    public ResponseData revokeRole(@RequestParam Integer userId, @RequestParam Integer roleId){
         int count = userRoleService.deleteByUserAndRole(userId, roleId);
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
@@ -138,7 +138,7 @@ public class UserController {
             @ApiImplicitParam(name = "labelId", value = "角色标签Id", required = true, paramType = "query", dataType = "String")
     })
     @PutMapping("assign_role_label")
-    public ResponseData assignLabel(Integer userId, Integer labelId){
+    public ResponseData assignLabel(@RequestParam Integer userId, @RequestParam Integer labelId){
         int count = userLabelService.insert(new UserLabel(userId,labelId));
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
@@ -149,7 +149,7 @@ public class UserController {
             @ApiImplicitParam(name = "labelId", value = "角色标签Id", required = true, paramType = "query", dataType = "String")
     })
     @PutMapping("revoke_role_label")
-    public ResponseData revokeRoleLabel(Integer userId, Integer labelId){
+    public ResponseData revokeRoleLabel(@RequestParam Integer userId, @RequestParam Integer labelId){
         int count = userLabelService.deleteByUserAndLabel(userId,labelId);
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }

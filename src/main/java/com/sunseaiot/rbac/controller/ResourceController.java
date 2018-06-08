@@ -26,7 +26,7 @@ public class ResourceController {
     @ApiOperation(value = "创建资源", notes = "创建资源", produces = "application/json")
     @ApiImplicitParam(name = "name", value = "资源名称", required = true, paramType = "query", dataType = "String")
     @PostMapping
-    public ResponseData create(String name){
+    public ResponseData create(@RequestParam String name){
         log.info(""+name);
         int count = resourceService.insert(name);
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
@@ -55,7 +55,7 @@ public class ResourceController {
     @ApiOperation(value = "修改资源信息", notes = "修改资源信息", produces = "application/json")
     @ApiImplicitParam(name = "resource", value = "资源实体对象", required = true, paramType = "body", dataType = "Resource")
     @PutMapping("modify")
-    public ResponseData modify(Resource resource){
+    public ResponseData modify(@RequestBody Resource resource){
         Integer count = resourceService.updateByPrimaryKey(resource);
         return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
