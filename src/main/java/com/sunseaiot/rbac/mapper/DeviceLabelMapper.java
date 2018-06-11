@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 public interface DeviceLabelMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(DeviceLabel record);
+    int deleteByDsnAndLabel(String dsn, Integer labelId);
 
-    int insertSelective(DeviceLabel record);
+    int insert(DeviceLabel record);
 
     DeviceLabel selectByPrimaryKey(Integer id);
 

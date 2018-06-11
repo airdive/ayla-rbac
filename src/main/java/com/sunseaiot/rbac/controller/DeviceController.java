@@ -2,8 +2,10 @@ package com.sunseaiot.rbac.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.sunseaiot.rbac.model.Device;
+import com.sunseaiot.rbac.model.DeviceLabel;
 import com.sunseaiot.rbac.model.DeviceRole;
 import com.sunseaiot.rbac.model.response.ResponseData;
+import com.sunseaiot.rbac.service.DeviceLabelService;
 import com.sunseaiot.rbac.service.DeviceRoleService;
 import com.sunseaiot.rbac.service.DeviceService;
 import io.swagger.annotations.Api;
@@ -30,6 +32,8 @@ public class DeviceController {
     private DeviceService deviceService;
     @Autowired
     private DeviceRoleService deviceRoleService;
+    @Autowired
+    private DeviceLabelService deviceLabelService;
 
     @ApiOperation(value = "查询设备列表", response = Device.class, responseContainer = "List", produces = "application/json")
     @ApiImplicitParams({
@@ -73,25 +77,31 @@ public class DeviceController {
             @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, paramType = "query", dataType = "String")
     })
     @PutMapping("revoke_role")
-    public String revokeRole(@RequestParam String dsn, @RequestParam Integer roleId){
-        deviceRoleService.deleteByDsnAndRole(dsn,roleId);
-        return null;
+    public ResponseData revokeRole(@RequestParam String dsn, @RequestParam Integer roleId){
+        int count = deviceRoleService.deleteByDsnAndRole(dsn,roleId);
+        return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
 
     @ApiOperation(value = "关联角色标签", response = String.class, produces = "application/json")
-    @ApiImplicitParam(name = "labelId", value = "角色标签ID", required = true, paramType = "query", dataType = "String")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dsn", value = "设备dsn", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "labelId", value = "角色标签ID", required = true, paramType = "query", dataType = "String")
+    })
     @PutMapping("assign_role_label")
-    public String assignRoleLabel(String dsn, String labelId){
-
-        return null;
+    public ResponseData assignRoleLabel(String dsn, Integer labelId){
+        int count = deviceLabelService.insert(new DeviceLabel(dsn,labelId));
+        return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
 
     @ApiOperation(value = "解关联角色标签", response = String.class, produces = "application/json")
-    @ApiImplicitParam(name = "labelId", value = "角色标签ID", required = true, paramType = "query", dataType = "String")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dsn", value = "设备dsn", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "labelId", value = "角色标签ID", required = true, paramType = "query", dataType = "String")
+    })
     @PutMapping("revoke_role_label")
-    public String revokeRoleLabel(String dsn, String labelId){
-
-        return null;
+    public ResponseData revokeRoleLabel(String dsn, Integer labelId){
+        int count = deviceLabelService.deleteByDsnAndLabel(dsn, labelId);
+        return count != 0 ? new ResponseData("200","success") : new ResponseData("400","fail");
     }
 
 }
